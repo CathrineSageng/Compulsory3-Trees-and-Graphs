@@ -5,16 +5,25 @@ TreeNode::TreeNode(int data)
 	Data = data;
 }
 
+//push_back push elements into a list from the back. The new value is inserted at the end of a list. 
+//This increases the size by 1 in the container treenode.
 void TreeNode::addChild(TreeNode* child)
 {
 	children.push_back(child);
 }
 
+//The GeneralTree class is nested in the Treenode class. 
 TreeNode::GeneralTree::GeneralTree(int rootValue)
 {
+	//A new 'Treenode' object is allocated on the heap memory using the 'new' keyword. 
+	//The constuctor of the 'Treenode' is called with the provided 'rootValue' parameter and the memory adress
+		// of the newly created created 'Treenode' object.
+	//Now the 'root' pointer points to a root node of the tree
 	root = new TreeNode(rootValue);
 }
 
+//'getRoot' takes no parameter and is the function name. 
+//Here it reuturns a pointer to the 'Treenode' object, the adress of the root. 
 TreeNode* TreeNode::GeneralTree::getRoot()
 {
 	return root;
