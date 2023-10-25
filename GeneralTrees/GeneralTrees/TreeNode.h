@@ -36,32 +36,50 @@ public:
 		//The consrtuctor takes an integer parameter called 'rootValue'
 		GeneralTree(int rootValue);
 
+		//Returns the root of the tree
 		TreeNode* getRoot();
+		//Returns the parents of the assigned treeNode
 		TreeNode* getParent(TreeNode* node);
-
+		//Returns a list of children of the node being assigned
 		list<TreeNode*> getChildren(TreeNode* node);
 
+		//Here we create a pointer to a 'Treenode object' with 'Treenode* node'.
 		int getSize(TreeNode* node);
+		//Here we create a pointer to a 'Treenode object' with 'Treenode* node'.
 		int getDepth(TreeNode* node);
-
+		//Checks if a tree is empty
 		bool isEmpty();
+		//checks if the assigned node is the root of the tree
 		bool isRoot(TreeNode* node);
+		//checks if the assigned node is a leaf of the tree
 		bool isLeaf(TreeNode* node);
 
+		//The two insertNode work together. First adds a child on the parentNode, second finds the parentNode
+		//who will get a new child and inserts the new node as the parents child
 		void insertNode(TreeNode* parentNode, int data);
 		void insertNode(int parentValue, int data);
-		void deleteNode(TreeNode* node);
-		void depthFirstTraversal(TreeNode* node);
 
+		//This two functions deletes the assigned nodes and root of the tree
+		void deleteNode(TreeNode* node);
+		void deleteRoot();
+
+		//This is a destructor, passinf in the 'root' as an argument. Here a GeneralTree object is deleted. 
+		//The nodes in the tree are deallocated from memory, this is to prevent memory leaks. 
 		~GeneralTree()
 		{
 			destroyTree(root);
 		}
 
-	private:
+		//Traverses the tree vertical from the left to rhe right. 
+		void depthFirstTraversal(TreeNode* node);
+
+		//Searching the tree for a given node
 		TreeNode* findNode(TreeNode* node, int data);
+		//Searching the tree for a given parent 
 		TreeNode* findParent(TreeNode* currentNode, TreeNode* childNode);
 
+		private:
+		//Deletes all the nodes in the tree. 
 		void destroyTree(TreeNode* node);
 		
 	};
