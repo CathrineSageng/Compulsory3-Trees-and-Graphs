@@ -33,57 +33,111 @@ Graph::~Graph()
     }
 }
 
+/// <summary>
+/// This function creatres a new node with the value given from the user and it to the Graph object 'graph'. 
+/// Its the 'nodes' map that stores all the nodes using their data values as keys and pointers to Node 
+/// objects as values
+/// </summary>
+/// <param name="Data">The value of the node given by the user</param>
 void Graph::addNode(int Data)
 {
+    //Adds a newly creates 'Node' object and adds it to the unordered_map nodes. 
    nodes[Data] = new Node(Data);
 }
 
-void Graph::addEdge(int source, int destination)
+/// <summary>
+/// This functions adds an undirected edge between two nodes in the graph. It updates the adjacent node list of both 
+/// 'startNode' and 'destinationNode', indicating they are connected to each other. 
+/// </summary>
+/// <param name="source">This represents the data value of the first node between two nodes we are 
+/// creating an edge between</param>
+/// <param name="destination">This represents the data value of the second node between two nodes we are
+/// creating an egde between</param>
+void Graph::addEdge(int startNode, int destinationNode)
 {
-	nodes[source]->adjacentNodes.push_back(nodes[destination]);
-	nodes[destination]->adjacentNodes.push_back(nodes[source]); // For undirected graph
+    //First we access the 'startNode' list  and uses the push back to add the pointer to the 'destinationNode' list
+    nodes[startNode]->adjacentNodes.push_back(nodes[destinationNode]);
+    //First we accsess the 'destinationNode' list and uses the push back to add the pointer to the 'startNode' list 
+    nodes[destinationNode]->adjacentNodes.push_back(nodes[startNode]);
 }
 
-void Graph::removeEdge(int source, int destination)
+/// <summary>
+/// This function removes an undirected edge between 'startNode' and 'destinationNode'. 
+/// </summary>
+/// <param name="startNode"></param>
+/// <param name="destinationNode"></param>
+void Graph::removeEdge(int startNode, int destinationNode)
 {
-    auto it = std::find(nodes[source]->adjacentNodes.begin(), nodes[source]->adjacentNodes.end(), nodes[destination]);
-    if (it != nodes[source]->adjacentNodes.end()) {
-        nodes[source]->adjacentNodes.erase(it);
+    //Starts by searching the 'startNode' list from the start to the end, by searching for the iterator
+    //pointing to the'destinationNode' in the 'adjacentNode' list of the 'startNode'. 
+    auto iteration = find(nodes[startNode]->adjacentNodes.begin(), nodes[startNode]->adjacentNodes.end(), 
+                     nodes[destinationNode]);
+    //if the iteration is not equal to the end of the list the iteration found the 'destinationNode'.
+    //Use the erase function to remove the element that is pointing to the 'destinationNode'.
+    if (iteration != nodes[startNode]->adjacentNodes.end()) {
+        nodes[startNode]->adjacentNodes.erase(iteration);
     }
 
-    it = std::find(nodes[destination]->adjacentNodes.begin(), nodes[destination]->adjacentNodes.end(), nodes[source]);
-    if (it != nodes[destination]->adjacentNodes.end()) {
-        nodes[destination]->adjacentNodes.erase(it);
+    //Look at the previous explaination. 
+    iteration = std::find(nodes[destinationNode]->adjacentNodes.begin(), nodes[destinationNode]->adjacentNodes.end(),
+                          nodes[startNode]);
+    if (iteration != nodes[destinationNode]->adjacentNodes.end()) {
+        nodes[destinationNode]->adjacentNodes.erase(iteration);
     }
 }
 
-void Graph::removeNode(int data)
+/// <summary>
+/// This function removes the nodes from the graph and all the edges connected to the node. 
+/// </summary>
+/// <param name="data">Value of the pointer to be deleted</param>
+void Graph::removeNode(int Data)
 {
+    //Retrives a pointer to the node with the correct value(Data). This will be the node removed. 
+    auto nodeToDelete = nodes[Data];
+    //Iterates trough the nodes map and deletes the edges that are connected to the node to be delted. 
+    //it does this by calling the removeEdge function. 
+    for (unordered_map<int, Node*>::iterator iterator = nodes.begin(); iterator != nodes.end(); ++iterator) 
     {
-        auto nodeToDelete = nodes[data];
-        for (auto& pair : nodes) {
-            removeEdge(pair.first, data);
-        }
-        nodes.erase(data);
-        delete nodeToDelete;
+    removeEdge(iterator->first, Data);
     }
+    //Removes the node from the graph using the 'Data' value as the key 
+    nodes.erase(Data);
+    //Deallocates the memory that was occupides by the node. 
+    delete nodeToDelete;
 }
 
+/// <summary>
+/// check if the graph is empty or not. It returns true(1), if the graph is empty. 
+/// nodes.empty() checks the nodes in the unodered map. 
+/// </summary>
+/// <returns>If the map is empty, it will return true(1).</returns>
 bool Graph::isEmpty()
 {
    return nodes.empty();
 }
 
+/// <summary>
+/// This function counts the number of nodes in the graph. 
+/// </summary>
+/// <returns>How many nodes that are counted</returns>
 int Graph::size()
 {
+    //uses the size() function on the unordered_map 'nodes'
    return nodes.size();
 }
 
+/// <summary>
+/// This function gets data from a specific node in the graph. If the node is not found it prints out an error message. 
+/// </summary>
+/// <param name="data"></param>
+/// <returns></returns>
 int Graph::getNodeData(int data)
 {
-   if (nodes.find(data) == nodes.end()) {
+   if (nodes.find(data) == nodes.end()) 
+   {
        std::cerr << "Node not found in the graph." << std::endl;
-        return -1; // Return a default value indicating error
+       // Return a default value indicating error
+        return -1; 
         }
         return nodes[data]->Data;
 }

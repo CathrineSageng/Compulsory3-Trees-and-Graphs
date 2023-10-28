@@ -7,18 +7,47 @@ int main()
 {
     Graph graph;
 
+
+    cout << "Is the graph empty?";
+    if (graph.isEmpty() == 1)
+    { 
+        cout << " Yes";
+    }
+    else 
+    {
+        cout << " No";
+    }
+    cout<<endl;
+
     graph.addNode(1);
     graph.addNode(2);
     graph.addNode(3);
     graph.addNode(4);
+    graph.addNode(5);
+    graph.addNode(6);
+
 
     graph.addEdge(1, 2);
     graph.addEdge(1, 3);
     graph.addEdge(2, 4);
     graph.addEdge(3, 4);
+    graph.addEdge(4, 6);
+    graph.addEdge(6, 5);
 
-    std::cout << "Graph size: " << graph.size() << std::endl;
-    std::cout << "Is graph empty? " << (graph.isEmpty() ? "Yes" : "No") << std::endl;
+    cout << "Is the graph empty?";
+    if (graph.isEmpty() == 1)
+    {
+        cout << " Yes";
+    }
+    else
+    {
+        cout << " No";
+    }
+    cout << endl;
+
+    cout << "The size of the graph is:" << graph.size()<<endl;
+
+    cout << graph.getNodeData(7) << endl;
 
     std::cout << "Node 2 data: " << graph.getNodeData(2) << std::endl;
 

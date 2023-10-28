@@ -38,25 +38,25 @@ public:
     //This is the destuctor for the class Graph. 
     ~Graph();
 
-    // Function to add a node to the graph
+    // This function adds a node to the graph.
     void addNode(int Data);
 
-    // Function to add an edge between two nodes
-    void addEdge(int source, int destination);
+    // This function adds an edge between two nodes
+    void addEdge(int startNode, int destinationNode);
 
-    // Function to remove an edge between two nodes
-    void removeEdge(int source, int destination);
+    // This function removes an egde between two nodes
+    void removeEdge(int startNode, int destinationNode);
 
-    // Function to remove a node from the graph
-    void removeNode(int data);
+    // This function removes the nodes from the graph
+    void removeNode(int Data);
 
-    // Function to check if the graph is empty
+    // This function will check if the graph is empty. 
     bool isEmpty();
 
-    // Function to get the number of nodes in the graph
+    // This function will check the size og the graph. 
     int size();
 
-    // Function to get the data of a specific node
+    // This function gets the data from an aksed node
     int getNodeData(int data);
 
     // Function to get the adjacent nodes of a specific node
