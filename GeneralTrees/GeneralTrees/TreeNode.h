@@ -1,7 +1,10 @@
 #pragma once
 #include <iostream>
 #include <list>
-using namespace std; 
+#include <cstdlib>
+#include <ctime>
+using namespace std;
+
 
 class TreeNode
 {
@@ -36,6 +39,7 @@ public:
 		//The consrtuctor takes an integer parameter called 'rootValue'
 		GeneralTree(int rootValue);
 
+
 		//Returns the root of the tree
 		TreeNode* getRoot();
 		//Returns the parents of the assigned treeNode
@@ -58,6 +62,9 @@ public:
 		//who will get a new child and inserts the new node as the parents child
 		void insertNode(TreeNode* parentNode, int data);
 		void insertNode(int parentValue, int data);
+
+		//This function insert random values on the nodes
+		void insertRandomNode(TreeNode* parentNode);
 
 		//This two functions deletes the assigned nodes and root of the tree
 		void deleteNode(TreeNode* node);

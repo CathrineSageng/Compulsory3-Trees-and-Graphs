@@ -196,6 +196,17 @@ void TreeNode::GeneralTree::insertNode(int parentValue, int data)
 }
 
 /// <summary>
+/// Insert a number with a random value. 
+/// </summary>
+/// <param name="parentNode"></param>
+void TreeNode::GeneralTree::insertRandomNode(TreeNode* parentNode)
+{
+	// Generates a random integer between 0 and 99
+	int randomValue = rand() % 100; 
+	insertNode(parentNode, randomValue);
+}
+
+/// <summary>
 /// This function finds and deletes the node. If it is a parent, the children also will be deleted.
 /// </summary>
 /// <param name="node">Declares a node as an pointer to the object TreeNode. It is looking for the 

@@ -45,7 +45,7 @@ public:
     // This function adds an edge between two nodes
     void addEdge(int startNode, int destinationNode);
 
-    // Function to generate and return a random value within a specified range
+    // This function generates and return a random value within a specified range
     int getRandomValue(int minValue, int maxValue);
 
     //This function inserts a random node to the graph

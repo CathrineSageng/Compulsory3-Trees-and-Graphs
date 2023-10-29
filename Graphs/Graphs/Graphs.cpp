@@ -77,7 +77,7 @@ int main()
     {
         cout << *iterator << " ";
     }
-    cout << std::endl;
+    cout <<endl;
 
     //Prints out the total amount od edges in the graph 
     cout << "The total amount of edges in the graph is: " << graph.getNumEdges() << endl;
@@ -98,30 +98,23 @@ int main()
     
     //Creating a new object of the graph class
     Graph graph2;
-    /*for (int i = 0; i < 5; ++i) {
-        graph2.addRandomNode(100);
-    }
-   
-    std::cout << "Graph size after inserting random nodes: " << graph2.size() << std::endl;
-    
-    cout << std::endl;*/
 
-    srand(time(0)); // Seed the random number generator with current time
+    //Generates different numbers everytime the program runs
+    srand(time(0));
 
-    // Insert 5 random nodes with values between 1 and 100
+    // Inserts 5 random nodes with values between 1 and 100 and prints out the size of the graph. 
     for (int i = 0; i < 5; ++i) {
         graph2.addRandomNode(1, 100);
     }
+    cout << "Graph size after inserting random nodes: " << graph2.size() <<endl;
 
-    std::cout << "Graph size after inserting random nodes: " << graph2.size() << std::endl;
-
-    std::cout << "Random values between 1 and 100: ";
+    //Prints out the values of the nodes
+    cout << "Random values between 1 and 100: ";
     for (int i = 0; i < 5; ++i) {
         int randomValue = graph2.getRandomValue(1, 100);
-        std::cout << randomValue << " ";
+        cout << randomValue << " ";
     }
-    std::cout << std::endl;
-
+    cout<<endl;
     return 0;
 
 }

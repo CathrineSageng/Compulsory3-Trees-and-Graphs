@@ -1,6 +1,7 @@
 #include <iostream>
 #include "TreeNode.h"
-
+#include <cstdlib>
+#include <ctime>
 using namespace std;
 
 int main()
@@ -81,18 +82,19 @@ int main()
     TreeNode* parent = tree.findNode(tree.getRoot(), 14);
     if (parent != nullptr) {
         tree.deleteNode(parent);
-        std::cout << "Tree after deleting a parent with value 14: ";
+        cout << "Tree after deleting a parent with value 14: ";
         tree.depthFirstTraversal(tree.getRoot());
-        std::cout << std::endl;
+        cout << std::endl;
     }
     else {
-        std::cout << "Parent node not found." << std::endl;
+        cout << "Parent node not found." <<endl;
     }
    //Deleting the tree
     tree.deleteRoot();
-    std::cout << "Tree after deleting the root: ";
+    cout << "Tree after deleting the root: ";
     tree.depthFirstTraversal(tree.getRoot());
-    std::cout << std::endl;
+    cout <<endl;
+    cout <<endl;
 
 //Create a new Treenode with the value of 1 at the root. 
     //               (1)
@@ -128,7 +130,30 @@ int main()
     cout << endl;
 
     TreeNode* findChild = treeNumber2.findNode(treeNumber2.getRoot(), 2);
-    cout << "I found the child with the value of " << findChild->Data;
+    cout << "I found the child with the value of " << findChild->Data<<endl;
+    cout << endl;
+
+    //A tree object with random nodes and 5 always as a root 
+    TreeNode::GeneralTree treeNumber3(5);
+    srand(std::time(0));
+
+    cout << "Inserting random nodes..." <<endl;
+    for (int i = 0; i < 3; ++i) {
+        treeNumber3.insertRandomNode(treeNumber3.getRoot());
+    }
+
+    cout << "Depth First Traversal after inserting random nodes: ";
+    treeNumber3.depthFirstTraversal(treeNumber3.getRoot());
+    cout <<endl;
+
+    cout << "Tree Size: " << treeNumber3.getSize(treeNumber3.getRoot()) << endl;
+    cout << "Tree Depth: " << treeNumber3.getDepth(treeNumber3.getRoot()) << endl;
+
+    //Deleting the tree
+    treeNumber3.deleteRoot();
+    cout << "Tree after deleting the root: ";
+    treeNumber3.depthFirstTraversal(treeNumber3.getRoot());
+    cout <<endl;
 
     return 0;
 }

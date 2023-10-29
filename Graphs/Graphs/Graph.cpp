@@ -62,25 +62,35 @@ void Graph::addEdge(int startNode, int destinationNode)
 }
 
 
-
+/// <summary>
+/// This function generates numbers in a range
+/// </summary>
+/// <param name="minValue">The minimum value of the node</param>
+/// <param name="maxValue">The maximun value of the node</param>
+/// <returns> -1 for invalid inputs, indicating error. Returns the random numbers generated</returns>
 int Graph::getRandomValue(int minValue, int maxValue)
 {
     {
+        //if the minimum value is greater than the maximun value, then the values are invalid. 
         if (minValue > maxValue) {
-            std::cerr << "Invalid input range." << std::endl;
-            return -1; // Return a default value indicating error
+            cerr << "This numbers are invalid" <<endl;
+            return -1; 
         }
-        return rand() % (maxValue - minValue + 1) + minValue; // Generates a random value between minValue and maxValue (inclusive)
+        // Generates a random value between minValue and maxValue if the values are valid.
+        //Then the function calculates the size of the range and adds +1, so the maxvalue is included  in the range. 
+        return rand() % (maxValue - minValue + 1) + minValue; 
     }
 }
 
 /// <summary>
-/// 
+/// This function adds the random numbers to the graph. 
 /// </summary>
-/// <param name="maxValue"></param>
+/// <param name="minValue">The minimum value of the node</param>
+/// <param name="maxValue"> The maximum value of the node</param>
 void Graph::addRandomNode(int minValue, int maxValue)
 {
     int randomValue = getRandomValue(minValue, maxValue);
+    //Adds a new node to the graph with a generated number. 
     addNode(randomValue);
 }
 
