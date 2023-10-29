@@ -290,7 +290,7 @@ void Graph::breadthFirstTraversal(int startNode)
                 }
             }
         }
-        cout << std::endl;
+        cout << endl;
 }
 
 
