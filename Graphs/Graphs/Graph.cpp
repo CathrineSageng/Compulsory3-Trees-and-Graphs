@@ -61,6 +61,29 @@ void Graph::addEdge(int startNode, int destinationNode)
     nodes[destinationNode]->adjacentNodes.push_back(nodes[startNode]);
 }
 
+
+
+int Graph::getRandomValue(int minValue, int maxValue)
+{
+    {
+        if (minValue > maxValue) {
+            std::cerr << "Invalid input range." << std::endl;
+            return -1; // Return a default value indicating error
+        }
+        return rand() % (maxValue - minValue + 1) + minValue; // Generates a random value between minValue and maxValue (inclusive)
+    }
+}
+
+/// <summary>
+/// 
+/// </summary>
+/// <param name="maxValue"></param>
+void Graph::addRandomNode(int minValue, int maxValue)
+{
+    int randomValue = getRandomValue(minValue, maxValue);
+    addNode(randomValue);
+}
+
 /// <summary>
 /// This function removes an undirected edge between 'startNode' and 'destinationNode'. 
 /// </summary>
@@ -130,83 +153,134 @@ int Graph::size()
 /// This function gets data from a specific node in the graph. If the node is not found it prints out an error message. 
 /// </summary>
 /// <param name="data"></param>
-/// <returns></returns>
+/// <returns> The data associated with the specified node. -1 and message if the node is not found</returns>
 int Graph::getNodeData(int data)
 {
+   //Searching trough the unorderod_map 'nodes' for the asked 'data', with the function find(). 
+   //if the 'data' is not found it prints out the message. 
    if (nodes.find(data) == nodes.end()) 
    {
-       std::cerr << "Node not found in the graph." << std::endl;
-       // Return a default value indicating error
-        return -1; 
-        }
-        return nodes[data]->Data;
+       //cerr is used for error message. cout is used for normal output message. 
+       cerr << "The node was not found in the graph." << endl; 
+       return -1; 
+   }
+  // If the node is found in the graph, the function retrieves the Data from the Node object, pointed to
+  // by the data key in the nodes map.
+       return nodes[data]->Data;
 }
 
-std::list<int> Graph::getAdjacentNodes(int data)
+/// <summary>
+/// This function retrives values from the nodes that are adjacent to the node asked for, 
+/// Iterates trough the adjacentNode list and  for a specified data (nodes[data]->adjacentNodes).
+/// For each adjacent node pointer, it retrieves the Data associated with that node and adds it to the 
+/// adjacentNodeData list.
+/// </summary>
+/// <param name="data">The node value from the node that are adjacent from the node(s) </param>
+/// <returns>If the node is not found, an error message will be printed out.
+/// If the node is found, it will return a list containing data values of the adjacent nodes </returns>
+list<int> Graph::getAdjacentNodes(int data)
 {
     
-        if (nodes.find(data) == nodes.end()) {
-            std::cerr << "Node not found in the graph." << std::endl;
-            return std::list<int>(); // Return an empty vector indicating error
-        }
-
-        std::list<int> adjacentNodeData;
-        for (Node* adjacentNode : nodes[data]->adjacentNodes) {
-            adjacentNodeData.push_back(adjacentNode->Data);
-        }
-        return adjacentNodeData;
-    
+    if (nodes.find(data) == nodes.end()) 
+    {
+        cerr << "The node was not found in the graph." <<endl;
+        //Returns an empty list
+        return list<int>(); 
+    }
+    //Here we iterate trough the adjacentNode list for the node that is asked for. 
+    list<int> adjacentNodeData;
+    list<Node*> adjacentNodes = nodes[data]->adjacentNodes;
+    for (list<Node*>::iterator iterator = adjacentNodes.begin(); iterator != adjacentNodes.end(); ++iterator) 
+    {
+        Node* adjacentNode = *iterator;
+        adjacentNodeData.push_back(adjacentNode->Data);
+    }
+    return adjacentNodeData;
 }
 
-std::list<int> Graph::getVertices()
+/// <summary>
+/// This function retrives data of all the nodes in the graph and return them as a list. 
+/// </summary>
+/// <returns>A list with data values of all the nodes in the graph</returns>
+list<int> Graph::getVertices()
 {
-    
-        std::list<int> vertices;
-        for (const auto& pair : nodes) {
-            vertices.push_back(pair.first);
-        }
-        return vertices;
-    
+    //This is an empty list 
+    list<int> vertices;
+    //Iterates trough all the nodes in the unordered_map from the beginning to the end and collects 
+    //all the node data in a list that will be reutrned. first is the node data, second is the pointer to Node. 
+    for (unordered_map<int, Node*>::iterator iterator = nodes.begin(); iterator != nodes.end(); ++iterator) 
+    {
+        vertices.push_back(iterator->first);
+    }
+    return vertices;
 }
 
+/// <summary>
+/// This function calculates the number of edges in the graph. It iterates trough all the nodes and counts 
+/// the munber of adjacent nodes and then divide the total number on 2 since the edge is counted twice. 
+/// </summary>
+/// <returns><The total amount of edges in the graph</returns>
 int Graph::getNumEdges()
 {
     int count = 0;
-    for (const auto& pair : nodes) {
-        count += pair.second->adjacentNodes.size();
+    for (unordered_map<int, Node*>::iterator iterator = nodes.begin(); iterator != nodes.end(); ++iterator) 
+    {
+        count += iterator->second->adjacentNodes.size();
     }
-    // For undirected graph, each edge is counted twice, so divide by 2
+    // For undirected graph, each edge is counted twice, so we need to divide by 2
     return count / 2;
 }
 
+
+/// <summary>
+/// This function does a breadth first traversal from a specified startNode and prints out the data for each 
+/// visited node in the order they are visited. Each node is only visited once. 
+/// </summary>
+/// <param name="startNode">this is the node the traversal starts from</param>
 void Graph::breadthFirstTraversal(int startNode)
 {
+        //Checks if the stratNode exists, if not the message wil be printed out. 
         if (nodes.find(startNode) == nodes.end()) {
-            std::cerr << "Node not found in the graph." << std::endl;
+            cerr << "Node not found in the graph." << endl;
             return;
         }
-
-        std::unordered_map<Node*, bool> visited;
-        std::queue<Node*> queue;
-
+        //Here an unordered map is created with a bool datatype. Each node pointer (element) has a bool value
+        //to indicate if the node is visited or not. 
+        unordered_map<Node*, bool> visited;
+        //Creates an empty queue. 
+        queue<Node*> queue;
+        //The start gets a pointer to the starting node based on the provided value to startNode. 
         Node* start = nodes[startNode];
+        //Adds the element start at the end og the queue. 
         queue.push(start);
+        //Start value is visited. 
         visited[start] = true;
 
-        while (!queue.empty()) {
+        //The while loop continues to the loop is empty. 
+        while (!queue.empty()) 
+        {
+            //Retrives the first element and is now the currentNode. 
             Node* currentNode = queue.front();
+            //Removes the current node from the queue. 
             queue.pop();
-            std::cout << currentNode->Data << " ";
+            //Prints out data from the currentNode. 
+            cout << currentNode->Data << " ";
 
-            for (Node* adjacentNode : currentNode->adjacentNodes) {
-                if (!visited[adjacentNode]) {
+            //iterated trough the adjacent nodes of the current nodes.
+            for (list<Node*>::iterator iterator = currentNode->adjacentNodes.begin(); 
+                    iterator != currentNode->adjacentNodes.end(); ++iterator) 
+            {
+                //if the adjacent node has not been visited it change the status from false to true. 
+                Node* adjacentNode = *iterator;
+                if (!visited[adjacentNode]) 
+                {
+                    //Adds the element at the end og the queue. 
                     queue.push(adjacentNode);
                     visited[adjacentNode] = true;
                 }
             }
         }
-
-        std::cout << std::endl;
+        cout << std::endl;
 }
 
 

@@ -3,6 +3,7 @@
 #include <list>
 #include <unordered_map>
 #include <queue>
+#include <cstdlib>
 using namespace std;
 
 class Graph
@@ -44,6 +45,12 @@ public:
     // This function adds an edge between two nodes
     void addEdge(int startNode, int destinationNode);
 
+    // Function to generate and return a random value within a specified range
+    int getRandomValue(int minValue, int maxValue);
+
+    //This function inserts a random node to the graph
+    void addRandomNode(int minValue, int maxValue);
+
     // This function removes an egde between two nodes
     void removeEdge(int startNode, int destinationNode);
 
@@ -59,16 +66,16 @@ public:
     // This function gets the data from an aksed node
     int getNodeData(int data);
 
-    // Function to get the adjacent nodes of a specific node
-    std::list<int> getAdjacentNodes(int data);
+    // This function gets the adjacent nodes of a specific node
+    list<int> getAdjacentNodes(int data);
 
-    // Function to get the vertices in the graph
+    // This gunction gets the vertices in the graph
     std::list<int> getVertices();
 
-    // Function to get the number of edges in the graph
+    // This function gets the number of edges in the graph
     int getNumEdges();
 
-    // Function to perform breadth-first traversal of the graph
+    // This function performs breadth-first traversal of the graph
     void breadthFirstTraversal(int startNode);
 
 };
